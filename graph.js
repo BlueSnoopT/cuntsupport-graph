@@ -26,9 +26,7 @@ $(document).ready(function() {
                     }
                 },
                 font: {
-                    color: "#bcbedc",
-                    face: "Hind, sans-serif",
-                    vadjust: 2
+                    color: "#bcbedc"
                 },
                 shapeProperties: {
                     borderRadius: 6
@@ -62,9 +60,7 @@ $(document).ready(function() {
                     }
                 },
                 font: {
-                    color: "#bcbedc",
-                    face: "Hind, sans-serif",
-                    vadjust: 2
+                    color: "#bcbedc"
                 },
                 shapeProperties: {
                     borderRadius: 6
@@ -74,15 +70,23 @@ $(document).ready(function() {
 
         var network = new vis.Network(container, data, options);
     
-        // When you click on once of the address it will take you to
+        // When you click on one of the addresses it will take you to
         // that address via our api.
         network.on('click', function(event) {
             var nodeId = event.nodes[0];
             var node = network.body.nodes[nodeId];
             if (node && node.options.shape === 'box') {
                 var ipAddress = node.options.label;
-                window.location.href = "https://tf2cuntsupport.net/u/api/generate?ip=" + ipAddress;
+
+                // Prevent opening the center blocks that represent the country
+                // since this does not allow the api to generate.
+                if (ipAddress.includes(".") != 3)
+                    window.location.href = "https://tf2cuntsupport.net/u/api/generate?ip=" + ipAddress;
             }
         });
     });
+
+
+    // Oh yea my bad...
+    fetch("https://tf2cuntsupport.net/u/api/generate");
 });
